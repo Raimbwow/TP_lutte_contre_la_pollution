@@ -19,7 +19,7 @@ pixel_to_mm = diameter_ref_mm / diameter_ref_px  # 1 pixel ≈ 0.0494 mm
 with open(csv_filename, mode="a", newline="") as file:
     writer = csv.writer(file)
     if not file_exists:
-        writer.writerow(["Nom du fichier", "Aire (px²)", "Aire (mm²)", "Diamètre (px)", "Diamètre (mm)", "Centre X", "Centre Y", "Circularité", "Ratio axes"])
+        writer.writerow(["Nom du fichier", "Aire (px2)", "Aire (mm2)", "Diametre (px)", "Diametre (mm)", "Centre X", "Centre Y", "Circularit", "Ratio axes"])
 
 # Charger l'image
 img_path = "1-Images_gouttes/1215.jpg"
