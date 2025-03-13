@@ -8,6 +8,7 @@ pixel_to_mm2 = 75.4 / 22959  # Conversion de pixels² en mm²
 diameter_ref_px = 2 * np.sqrt(22959 / np.pi)  # Diamètre de la sphère de référence en pixels
 diameter_ref_mm = 9.8  # Diamètre de la sphère en mm
 pixel_to_mm = diameter_ref_mm / diameter_ref_px  # Conversion diamètre px → mm
+temps = 0 #temps en secondes
 
 # 📂 Dossier contenant les images
 image_folder = "Methane_images"  # Remplace par le chemin de ton dossier
@@ -21,7 +22,7 @@ file_exists = os.path.isfile(csv_filename)
 with open(csv_filename, mode="a", newline="") as file:
     writer = csv.writer(file)
     if not file_exists:
-        writer.writerow(["Image", "Aire (px²)", "Aire (mm²)", "Diamètre (px)", "Diamètre (mm)"])
+        writer.writerow(["Image", "Aire (px²)", "Aire (mm²)", "Diamètre (px)", "Diamètre (mm)", "Temps (sec)"])
 
 # 🖼️ Traitement des images
 for image_file in image_files:
@@ -45,11 +46,12 @@ for image_file in image_files:
         area_mm2 = area_px * pixel_to_mm2
         diameter_px = 2 * np.sqrt(area_px / np.pi)
         diameter_mm = diameter_px * pixel_to_mm
+        temps += 0.04
 
         # Ajouter au CSV
         with open(csv_filename, mode="a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([image_file, area_px, area_mm2, diameter_px, diameter_mm])
+            writer.writerow([image_file, area_px, area_mm2, diameter_px, diameter_mm, temps])
 
         # 🟢 Afficher la bulle détectée
         cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
