@@ -10,7 +10,7 @@ diameter_ref_mm = 9.8  # Diamètre de la sphère en mm
 pixel_to_mm = diameter_ref_mm / diameter_ref_px  # Conversion diamètre px → mm
 
 # 📂 Dossier contenant les images
-image_folder = "path_to_your_images"  # Remplace par le chemin de ton dossier
+image_folder = "Methane_images"  # Remplace par le chemin de ton dossier
 image_files = sorted([f for f in os.listdir(image_folder) if f.endswith('.jpg')])
 
 # 📂 Fichier CSV de sortie
