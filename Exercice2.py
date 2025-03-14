@@ -71,6 +71,7 @@ with open(csv_filename, mode="r", newline="") as file:
     for ligne in lecture_csv:
         temps.append(float(ligne["Temps (sec)"]))
         diametre.append(float(ligne["Diamètre (mm)"]))
+        
 """
 print(temps)
 print(diametre)
