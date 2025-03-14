@@ -88,6 +88,7 @@ plt.plot(temps, diametre)
 plt.xlabel('Temps (sec)')
 plt.ylabel('Diamètre (mm)')
 plt.title("Évolution du diamètre de la goutte dans le temps")
+plt.ylim(0, 2)
 plt.show()
 
 
