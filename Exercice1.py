@@ -28,7 +28,6 @@ img_name = os.path.basename(img_path)
 
 # Convertir en HSV
 hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
 # Définir les seuils pour détecter la goutte
 bound_lower = np.array([0, 0, 0])
 bound_upper = np.array([180, 255, 50])
