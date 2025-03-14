@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import csv
 import os
+import matplotlib.pyplot as plt
 
 # Paramètres de conversion
 pixel_to_mm2 = 75.4 / 22959  # Conversion de pixels² en mm²
@@ -12,17 +13,19 @@ temps = 0 #temps en secondes
 
 # Dossier contenant les images
 image_folder = "Methane_images"  # Remplace par le chemin de ton dossier
-image_files = [f for f in os.listdir(image_folder) ]
+image_files = sorted([f for f in os.listdir(image_folder) if f.endswith('.jpg')])
 
 # Fichier CSV de sortie
 csv_filename = "bulle_dissolution.csv"
 file_exists = os.path.isfile(csv_filename)
+#supprimerle fichier s'il existe
+if os.path.exists(csv_filename):
+    os.remove(csv_filename)
 
 # Créer CSV
 with open(csv_filename, mode="a", newline="") as file:
     writer = csv.writer(file)
-    if not file_exists:
-        writer.writerow(["Image", "Aire (px²)", "Aire (mm²)", "Diamètre (px)", "Diamètre (mm)", "Temps (sec)"])
+    writer.writerow(["Image", "Aire (px²)", "Aire (mm²)", "Diamètre (px)", "Diamètre (mm)", "Temps (sec)"])
 
 # Traitement des images
 for image_file in image_files:
@@ -56,10 +59,29 @@ for image_file in image_files:
         # Afficher la bulle détectée
         cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
     
-    # Affichage
+    # 🖼️ Affichage
     cv2.imshow("Bulle", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):  # Quitter avec 'q'
         break
+"""
+with open(csv_filename, mode="r", newline="") as file:
+    temps = []
+    diametre = []
+    lecture_csv = csv.DictReader(file)
+    for ligne in lecture_csv:
+        temps.append(float(ligne["Temps (sec)"]))
+        diametre.append(float(ligne["Diamètre (mm)"]))
+"""
+print(temps)
+print(diametre)
+"""
+
+plt.plot(temps, diametre)
+plt.xlabel('Temps (sec)')
+plt.ylabel('Diamètre (mm)')
+plt.title("Évolution du diamètre de la goutte dans le temps")
+plt.show()
+
 
 # Nettoyage
 cv2.destroyAllWindows()
