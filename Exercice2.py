@@ -32,13 +32,20 @@ for image_file in image_files:
     image_path = os.path.join(image_folder, image_file)
     frame = cv2.imread(image_path)  # Charger l'image
 
-    # Convertir en niveaux de gris et filtrer
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.GaussianBlur(gray, (1,1), 0)
+    # Convertir en HSV
+    hsv_img = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # Définir les seuils pour détecter la goutte
+    bound_lower = np.array([0, 0, 0])
+    bound_upper = np.array([20, 20, 20])
+    mask_black = cv2.inRange(hsv_img, bound_lower, bound_upper)
 
-    # Détection des contours
-    _, thresh = cv2.threshold(blurred, 50, 255, cv2.THRESH_BINARY)
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # Améliorer le masque avec des opérations morphologiques
+    kernel = np.ones((7, 7), np.uint8)
+    mask_black = cv2.morphologyEx(mask_black, cv2.MORPH_CLOSE, kernel)
+    mask_black = cv2.morphologyEx(mask_black, cv2.MORPH_OPEN, kernel)
+
+    # Trouver les contours
+    contours, _ = cv2.findContours(mask_black, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     if contours:
         # Prendre le plus grand contour (supposé être la bulle)
@@ -71,7 +78,7 @@ with open(csv_filename, mode="r", newline="") as file:
     for ligne in lecture_csv:
         temps.append(float(ligne["Temps (sec)"]))
         diametre.append(float(ligne["Diamètre (mm)"]))
-        
+
 """
 print(temps)
 print(diametre)
