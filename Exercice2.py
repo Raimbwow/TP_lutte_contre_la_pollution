@@ -49,7 +49,7 @@ for image_file in image_files:
 
     if contours:
         # Prendre le plus grand contour (supposé être la bulle)
-        c = min(contours, key=cv2.contourArea)
+        c = max(contours, key=cv2.contourArea)
 
         # Calculer l'aire et le diamètre
         area_px = cv2.contourArea(c)
