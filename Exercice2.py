@@ -13,7 +13,7 @@ temps = 0 #temps en secondes
 
 # Dossier contenant les images
 image_folder = "Methane_images"  # Remplace par le chemin de ton dossier
-image_files = sorted([f for f in os.listdir(image_folder) if f.endswith('.jpg')])
+image_files = [f for f in os.listdir(image_folder)]
 
 # Fichier CSV de sortie
 csv_filename = "bulle_dissolution.csv"
@@ -63,7 +63,7 @@ for image_file in image_files:
     cv2.imshow("Bulle", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):  # Quitter avec 'q'
         break
-"""
+
 with open(csv_filename, mode="r", newline="") as file:
     temps = []
     diametre = []
