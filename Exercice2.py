@@ -58,10 +58,11 @@ for image_file in image_files:
         diameter_mm = diameter_px * pixel_to_mm
         temps += 0.04
 
-        # Ajouter au CSV
-        with open(csv_filename, mode="a", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow([image_file, area_px, area_mm2, diameter_px, diameter_mm, temps])
+        if diameter_mm > 1.5 : 
+            # Ajouter au CSV
+            with open(csv_filename, mode="a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow([image_file, area_px, area_mm2, diameter_px, diameter_mm, temps])
 
         # Afficher la bulle détectée
         cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
